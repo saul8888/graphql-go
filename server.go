@@ -21,9 +21,8 @@ func main() {
 	//----------------------------------------------//
 	authentication.Route(r, autheService)
 
-	middelware.ConfigMiddelware(r)
-
 	r.GET("/", route.PlaygroundHandler)
+	middelware.ConfigMiddelware(r)
 	r.POST("/query", route.GraphQLHandler)
 	log.Println(server.Start(":8080"))
 

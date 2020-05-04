@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"go-graphql/database"
 	"go-graphql/graph/generated"
 	"go-graphql/graph/model"
@@ -38,11 +37,10 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 		Password:    input.Password,
 		//UpdateAt:    time.Now(),
 	}
-	updateCustomer, err := data.Update(customerID, user)
+	_, err := data.Update(customerID, user)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(updateCustomer)
 	//return c.JSON(http.StatusOK, updateCustomer)
 	row, err := data.GetById(customerID)
 	if err != nil {
@@ -90,13 +88,11 @@ func (r *queryResolver) GetTotalUser(ctx context.Context, input model.SeeData) (
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(row)
 	var users []*model.User
 	for row.Next(context.TODO()) {
 		customer := &model.User{}
 		row.Decode(&customer)
 		users = append(users, customer)
-		fmt.Println(customer)
 	}
 
 	totalCustomers, err := data.GetCantTotal()
