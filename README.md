@@ -2,7 +2,7 @@
 
 **compile the code**
 
-`compile the code`
+`go run server.go`
 
 **getUser**
 
