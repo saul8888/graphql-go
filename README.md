@@ -1,9 +1,5 @@
 ### Graphql in go
 
-**compile the code**
-
-`go run server.go`
-
 **getUser**
 
 ```
