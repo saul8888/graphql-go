@@ -1,29 +1,30 @@
 package main
 
 import (
-	"go-graphql/graph"
-	"go-graphql/graph/generated"
+	"go-graphql/authentication"
+	"go-graphql/database"
+	"go-graphql/middelware"
+	"go-graphql/route"
 	"log"
-	"net/http"
-	"os"
 
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/labstack/echo"
 )
 
-const defaultPort = "8080"
-
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = defaultPort
-	}
+	dbconection, _ := database.ConnectDB()
+	server := echo.New()
+	r := server.Group("/graphql")
+	//Database
+	var data = database.NewDataBase(dbconection)
+	//authentication
+	var autheService = authentication.NewService(data)
+	//----------------------------------------------//
+	authentication.Route(r, autheService)
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	middelware.ConfigMiddelware(r)
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	r.GET("/", route.PlaygroundHandler)
+	r.POST("/query", route.GraphQLHandler)
+	log.Println(server.Start(":8080"))
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

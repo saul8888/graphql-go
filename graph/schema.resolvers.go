@@ -99,9 +99,7 @@ func (r *queryResolver) GetTotalUser(ctx context.Context, input model.SeeData) (
 		fmt.Println(customer)
 	}
 
-	fmt.Println(users)
 	totalCustomers, err := data.GetCantTotal()
-	fmt.Println(totalCustomers)
 	if err != nil {
 		log.Fatal(err)
 	}
