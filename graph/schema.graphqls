@@ -1,0 +1,55 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+scalar MongoObjectId
+
+type User {
+  _id: MongoObjectId!
+  customer_name: String!
+  email: String!
+  phone_number: String!
+  password: String!
+  created_at: Time!
+  update_at: Time!
+}
+
+type Customers {
+  customers: [User!]!
+  cant: Int!
+}
+
+input NewUser {
+  customer_name: String!
+  email: String!
+  phone_number: String!
+  password: String!
+}
+
+input UpdateUser {
+  email: String!
+  phone_number: String!
+  password: String!
+}
+
+input SeeData{
+  limit: Int!
+  offset: Int!
+}
+
+type Users{
+  totaUser: [User!]!
+  cant: Int!
+}
+
+type Query {
+  getUser(id: ID!): User!
+  getTotalUser(input: SeeData!): Customers!
+}
+
+type Mutation {
+  insertUser(input: NewUser!): User!
+  updateUser(id: ID!, input: UpdateUser!): User!
+  deleteUser(id: ID!): Boolean!
+}
