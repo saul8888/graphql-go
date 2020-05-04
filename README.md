@@ -97,5 +97,13 @@ create this first
 
 `openssl rsa -in private.rsa -pubout > public.rsa.pub`
 
+**to get the token**
+
+```json
+{
+	"email":"saul@example.com",
+	"password":"saul1234"
+}
+```
 
 
